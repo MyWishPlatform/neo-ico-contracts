@@ -545,77 +545,76 @@ namespace NEP5.Contract.Tests
             Assert.AreEqual(calculatedTotalSupply, realTotalSupply, "TotalSupply should be equals");
         }
         
-//        [Test]
-//        public void T33_CheckFreezes() {
-//            ExecuteInit();
-//            
-//            var addressesToAmounts = new Dictionary<string, BigInteger>();
-//            for (var i = 0; i < addresses.Length; i++)
-//            {
-//                addressesToAmounts[addresses[i]] = addressesToAmounts.ContainsKey(addresses[i])
-//                    ? addressesToAmounts[addresses[i]] + amounts[i]
-//                    : amounts[i];
-//            }
-//            
-//            var addressesToFreezings = new Dictionary<string, List<long>>();
-//            for (var i = 0; i < addresses.Length; i++)
-//            {
-//                if (!addressesToFreezings.ContainsKey(addresses[i]))
-//                {
-//                    addressesToFreezings[addresses[i]] = new List<long>();
-//                }
-//
-//                var freezings = addressesToFreezings[addresses[i]];
-//                freezings.Add(freezes[i]);
-//                addressesToFreezings[addresses[i]] = freezings;
-//            }
-//            
-//            var actualBalances = addressesToAmounts.Keys
-//                .Select(a => _emulator.Execute(Operations.ActualBalanceOf, a.GetScriptHashFromAddress()).GetBigInteger())
-//                .ToArray();
-//            
-//            var addressesToActualBalances = new Dictionary<string, BigInteger>();
-//            var j = 0;
-//            foreach (var a in addressesToAmounts.Keys)
-//            {
-//                addressesToActualBalances[a] = actualBalances[j++];
-//            }
-//            
-//            var freezingBalances = addressesToAmounts.Keys
-//                .Select(a => _emulator.Execute(Operations.FreezingBalanceOf, a.GetScriptHashFromAddress()).GetBigInteger())
-//                .ToArray();
-//            
-//            var addressesToFreezingBalances = new Dictionary<string, BigInteger>();
-//            var k = 0;
-//            foreach (var a in addressesToAmounts.Keys)
-//            {
-//                addressesToFreezingBalances[a] = freezingBalances[k++];
-//            }
-//            
-//            Console.WriteLine($"Now: {_emulator.timestamp}");
-//            foreach (var key in addressesToAmounts.Keys)
-//            {
-//                Console.WriteLine($"Premint amount: {addressesToAmounts[key]}");
-//                Console.WriteLine($"Premint freezing: {addressesToFreezings[key]}");
-//                Console.WriteLine($"Premint actualBalance: {addressesToActualBalances[key]}");
-//                Console.WriteLine($"Premint freezingBalance: {addressesToFreezingBalances[key]}");
-//
-//                if (addressesToFreezings[key].TrueForAll(freezing => freezing <= _emulator.timestamp))
-//                {
-//                    Assert.AreEqual(addressesToAmounts[key], addressesToActualBalances[key]);
-//                    Assert.AreEqual(BigInteger.Zero, addressesToFreezingBalances[key]);
-//                }
-//                else 
-//                {
-//                    Assert.AreEqual(addressesToAmounts[key], addressesToFreezingBalances[key]);
-//                    Assert.AreEqual(BigInteger.Zero, addressesToActualBalances[key]);
-//                }
-//            }
-//        }
+        [Test]
+        public void T33_CheckFreezes() {
+            ExecuteInit();
+            
+            var addressesToAmounts = new Dictionary<string, BigInteger>();
+            for (var i = 0; i < addresses.Length; i++)
+            {
+                addressesToAmounts[addresses[i]] = addressesToAmounts.ContainsKey(addresses[i])
+                    ? addressesToAmounts[addresses[i]] + amounts[i]
+                    : amounts[i];
+            }
+            
+            var addressesToFreezings = new Dictionary<string, List<long>>();
+            for (var i = 0; i < addresses.Length; i++)
+            {
+                if (!addressesToFreezings.ContainsKey(addresses[i]))
+                {
+                    addressesToFreezings[addresses[i]] = new List<long>();
+                }
+
+                var freezings = addressesToFreezings[addresses[i]];
+                freezings.Add(freezes[i]);
+                addressesToFreezings[addresses[i]] = freezings;
+            }
+            
+            var actualBalances = addressesToAmounts.Keys
+                .Select(a => _emulator.Execute(Operations.ActualBalanceOf, a.GetScriptHashFromAddress()).GetBigInteger())
+                .ToArray();
+            
+            var addressesToActualBalances = new Dictionary<string, BigInteger>();
+            var j = 0;
+            foreach (var a in addressesToAmounts.Keys)
+            {
+                addressesToActualBalances[a] = actualBalances[j++];
+            }
+            
+            var freezingBalances = addressesToAmounts.Keys
+                .Select(a => _emulator.Execute(Operations.FreezingBalanceOf, a.GetScriptHashFromAddress()).GetBigInteger())
+                .ToArray();
+            
+            var addressesToFreezingBalances = new Dictionary<string, BigInteger>();
+            var k = 0;
+            foreach (var a in addressesToAmounts.Keys)
+            {
+                addressesToFreezingBalances[a] = freezingBalances[k++];
+            }
+            
+            Console.WriteLine($"Now: {_emulator.timestamp}");
+            foreach (var key in addressesToAmounts.Keys)
+            {
+                Console.WriteLine($"Premint amount: {addressesToAmounts[key]}");
+                Console.WriteLine($"Premint actualBalance: {addressesToActualBalances[key]}");
+                Console.WriteLine($"Premint freezingBalance: {addressesToFreezingBalances[key]}");
+
+                if (addressesToFreezings[key].TrueForAll(freezing => freezing <= _emulator.timestamp))
+                {
+                    Assert.AreEqual(addressesToAmounts[key], addressesToActualBalances[key]);
+                    Assert.AreEqual(BigInteger.Zero, addressesToFreezingBalances[key]);
+                }
+                else 
+                {
+                    Assert.AreEqual(addressesToAmounts[key], addressesToFreezingBalances[key]);
+                    Assert.AreEqual(BigInteger.Zero, addressesToActualBalances[key]);
+                }
+            }
+        }
         #endif
             
         [Test]
-        public void T33_CheckTransferOwnership()
+        public void T34_CheckTransferOwnership()
         {
             ExecuteInit();
             _emulator.checkWitnessMode = CheckWitnessMode.AlwaysTrue;
