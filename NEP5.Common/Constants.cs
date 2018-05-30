@@ -8,8 +8,8 @@
         public const string Paused = "paused";
         public const string Inited = "inited";
         public const string FreezesCount = "freezesCount";
-        public const string FreezeHash = "freeze_hash";
-        public const string FreezeAmount = "freeze_amount";
-        public const string FreezeUntil = "freeze_until";
+        public const string FreezeHash = "freezeHash";
+        public const string FreezeAmount = "freezeAmount";
+        public const string FreezeUntil = "freezeUntil";
     }
 }
